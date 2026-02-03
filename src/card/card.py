@@ -33,6 +33,23 @@ class Card:
 
     @classmethod
     def of(cls, rank: Rank, suit: Suit) -> "Card":
+        """Create a card from a rank and a suit."""
         return cls(int(suit) * 13 + int(rank))
     
+    @classmethod
+    def from_str(cls, s:str) -> "Card":
+        """Parse a card from notation like 'Ah' or '2c'. """
+        s = s.strip()
+        if len(s) != 2:
+            raise ValueError(f"Invalid card string: {s!r}")
+        return cls.of(Rank.from_char(s[0]), Suit.from_char(s[1]))
     
+    # display
+    def __str__(self) -> str:
+        return f"{self.rank.to_char()}{self.suit.to_char()}"
+    
+    def __repr__(self) -> str:
+        return f"Card(id={self._id}, rank={self.rank}, suit={self.suit})"
+    
+    def pretty(self) -> str:
+        return f"{self.rank.to_char()}{self.suit.to_symbol()}"
